@@ -1,0 +1,13 @@
+body {
+    font-family: sans-serif;
+    color: white;
+    background-color: grey;
+    padding: 25px;
+    font-size: 12px;
+
+    .app-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+}

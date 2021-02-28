@@ -1,0 +1,10 @@
+@import "../general/styles/colors.scss";
+
+.error-info {
+    height: 50vh;
+    width: 935px;
+    text-align: center;
+    line-height: 45vh;
+    font-size: 30px;
+    background-color: $grey;
+}
