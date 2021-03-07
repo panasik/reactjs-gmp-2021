@@ -1,0 +1,11 @@
+@import '../styles/colors.scss';
+
+.logo-content {
+  background-color: transparent;
+  color: $red;
+  font-size: 14px;
+  
+  .logo-item {
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,41 @@
+@import "../../general/styles/colors.scss";
+
+.item-movie-container {
+    display: flex;
+    flex-direction: column;
+    color: $light-grey;
+    margin-bottom: 30px;
+    position: relative;
+    width: 220px;
+
+    .context-menu-container,
+    .menu-container {
+        right: 0;
+    }
+
+    .image-movie-container {
+        height: 310px;
+    }
+
+    .movie-container {
+        margin: 10px 0 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .movie-title {
+            font-size: 14px;
+        }
+
+        .movie-release-date {
+            font-size: 10px;
+            border: 1px solid $grey;
+            border-radius: 3px;
+            padding: 3px 10px;
+        }
+    }
+
+    .movie-description {
+        font-size: 10px;
+    }
+}
