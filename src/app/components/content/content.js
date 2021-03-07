@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import './content.scss';
 import image_1 from '../../res/img/film-image-1.jpg';
 import image_2 from '../../res/img/film-image-2.jpeg';
@@ -28,15 +29,24 @@ const releaseDate = [
     {id: 1, data: '2014'},
     {id: 2, data: '2017'},
     {id: 3, data: '2021'}
-]
+];
+
+const poster = [
+    {id: 0, resource: undefined},
+    {id: 1, resource: image_1},
+    {id: 2, resource: image_2},
+    {id: 3, resource: image_3},
+    {id: 4, resource: image_4}
+];
+
 
 const loadedFilms = Array.from(Array(25).keys()).map(id => (
     {
-        id: id,
+        id: uuidv4(),
         title: 'Film_'+ id,
         releaseDate: [releaseDate[Math.floor((Math.random() * 3 + 1))].data],
         movieUrl: 'http://host.com',
-        image: id % 7 === 0 ? undefined : id % 9 === 0 ? image_1 : id % 5 === 0 ? image_2 : id % 2 ? image_3 : image_4,
+        image: [poster[Math.floor((Math.random() * 4 + 1))].resource],
         genres: [tabs[Math.floor((Math.random() * 4 + 1))].title],
         description: 'Description_' + id,
         runtime: '23:50'

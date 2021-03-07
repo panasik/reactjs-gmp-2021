@@ -2,6 +2,25 @@ import React from 'react';
 import './container.scss';
 import PropTypes from 'prop-types';
 
+
+const Container = ({ header, footer, children }) => (
+    <div className='container'>
+        {
+            header && <div className='container-header'>
+                {header}
+            </div>
+        }
+        <div className='container-main'>
+            {children}
+        </div>
+        {
+            footer && <div className='container-footer'>
+                {footer}
+            </div>
+        }
+    </div>
+);
+
 Container.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
@@ -9,27 +28,6 @@ Container.propTypes = {
     ]).isRequired,
     footer: PropTypes.node,
     header: PropTypes.node
-}
-
-function Container(props) {
-    return (
-        <div className='container'>
-            
-            {
-                props.header && <div className='container-header'>
-                    {props.header}
-                </div>
-            }
-           <div className='container-main'>
-                {props.children}
-            </div>
-            {
-                props.footer && <div className='container-footer'>
-                    {props.footer}
-                </div>
-            }
-        </div>
-    );
 }
 
 export default Container;
