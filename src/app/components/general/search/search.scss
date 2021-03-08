@@ -12,12 +12,6 @@
         border: none;
         caret-color: white;
         color: white;
-
-        &:focus,
-        &:hover {
-            outline: none;
-            background-color: black;
-        }
     }
 
     .button-search {

@@ -5,11 +5,16 @@ import MenuContainer, {menuItemType} from '../menu-container/menu-container';
 
 ContextMenu.propTypes = {
     items: PropTypes.arrayOf(menuItemType).isRequired,
+    children: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.node),
+            PropTypes.node
+        ]).isRequired,
     onItemSelected: PropTypes.func.isRequired
 }
 
 function ContextMenu(props) {
     const [isMenuOpen, setMenuOpen] = useState(false);
+    const [displayMenuIcon, setDisplayMenuIcon] = useState(false);
 
     const onItemSelected = (el) => {
         setMenuOpen(false);
@@ -17,10 +22,15 @@ function ContextMenu(props) {
     }
 
     return (<>
-        { !isMenuOpen &&
-        <div className='context-menu-container'
-            onClick={() => setMenuOpen(!isMenuOpen)}>
-        </div>
+        {
+          displayMenuIcon && !isMenuOpen &&
+          <div className='context-menu-container '
+                          onClick={() => setMenuOpen(!isMenuOpen)}>
+          </div>
+        }
+        {
+          props.children &&
+          React.cloneElement(props.children, {onClick: () => setDisplayMenuIcon(!displayMenuIcon)})
         }
         {
             isMenuOpen &&

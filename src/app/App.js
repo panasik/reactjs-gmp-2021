@@ -1,22 +1,19 @@
-import React from 'react';
+import React, {Suspense}  from 'react';
 import './App.scss';
-import Header from './components/header/header';
-import Footer from './components/footer/footer';
-import Container from './components/general/container/container';
-import Content from './components/content/content';
 import ErrorBoundary from './components/error-boundary/error-boundary';
+import Loading from './components/general/loading/loading';
+
+const FilmViewerContainer = React.lazy(() => import("./components/films-viewer/film-viewer-container"));
 
 function App() {
     return (
-        <div className="app-content">
+        <React.StrictMode>
            <ErrorBoundary>
-                <Container
-                    header={<Header />}
-                    footer={<Footer/>}>
-                        <Content/>
-                </Container>
+                <Suspense fallback={<Loading/>}>
+                    <FilmViewerContainer/>
+                </Suspense>
             </ErrorBoundary>
-        </div>
+        </React.StrictMode>
     );
 }
 

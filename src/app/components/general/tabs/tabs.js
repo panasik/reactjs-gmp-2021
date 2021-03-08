@@ -1,15 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './tabs.scss';
 import PropTypes from 'prop-types';
 
-export const tabItemType = PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    active: PropTypes.bool
-});
-
 Tabs.propTypes = {
-    tabs: PropTypes.arrayOf(tabItemType).isRequired,
+    tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
+    activeTab: PropTypes.string,
     right: PropTypes.node,
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
@@ -19,19 +14,6 @@ Tabs.propTypes = {
 }
 
 function Tabs(props) {
-    if (props.tabs.every(el => !el.active)) {
-        props.tabs[0].active = true;
-    }
-
-    const [tabs, setTabs] = useState(props.tabs);
-
-    const onTabClick = (el) => {
-        const cur = tabs.find(e => e.active);
-        cur.active = false;
-        el.active = true;
-        setTabs([...tabs]);
-        props.onTabClicked(el);
-    }
     return (
         <>
             <div className='tabs-header-container'>
@@ -39,10 +21,10 @@ function Tabs(props) {
                     {
                         props.tabs.map(el =>
                             <div
-                                key={el.id}
-                                className={`tab ${el.active ? 'Active' : ''}`}
-                                onClick={() => onTabClick(el)}>
-                                {el.title}
+                                key={el}
+                                className={`tab ${el ===props.activeTab ? 'Active' : ''}`}
+                                onClick={() => props.onTabClicked(el)}>
+                                {el}
                             </div>
                         )
                     }
