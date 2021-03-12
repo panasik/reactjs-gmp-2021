@@ -4,20 +4,11 @@ import '../../general/styles/button.scss';
 import MenuContainer, {menuItemType} from '../menu-container/menu-container';
 import PropTypes from 'prop-types';
 
-Dropdown.propTypes = {
-    items: PropTypes.arrayOf(menuItemType).isRequired,
-    selected: menuItemType,
-    onItemSelected: PropTypes.func.isRequired
-}
 
 function Dropdown(props) {
     const [isOpen, setOpen] = useState(false);
-    const [selectedItem, setSelectedItem] =
-        useState(props.selected || props.items[0]);
 
     const onItemSelected = (el) => {
-        console.log('Filter by ', el.title);
-        setSelectedItem(el);
         setOpen(false);
         props.onItemSelected(el);
     }
@@ -26,7 +17,7 @@ function Dropdown(props) {
             <div
                 className='dropdown-button'
                 onClick={() => setOpen(!isOpen)}>
-                {selectedItem.title}
+                {props.selected && props.selected.title || 'Select Option'}
             </div>
             {
                 isOpen &&
@@ -37,6 +28,12 @@ function Dropdown(props) {
             }
         </div>
     );
+}
+
+Dropdown.propTypes = {
+    items: PropTypes.arrayOf(menuItemType).isRequired,
+    selected: menuItemType,
+    onItemSelected: PropTypes.func.isRequired
 }
 
 export default Dropdown;

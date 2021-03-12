@@ -1,6 +1,6 @@
 import React from 'react';
 import './footer.scss';
-import Logo from '../general/logo/logo';
+import Logo from '../../general/logo/logo';
 
 const Footer = () => (
     <div className='footer-content'>
