@@ -6,6 +6,7 @@ import noImage from '../../../../res/img/no-image.png';
 import {filmType} from "../../../../util/prop-types/film.type";
 
 FilmItem.propTypes = {
+    actions: PropTypes.Array,
     film: filmType.isRequired,
     clickHandler: PropTypes.func
 }

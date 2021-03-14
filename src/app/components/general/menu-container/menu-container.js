@@ -27,7 +27,7 @@ const MenuContainer = (props) => (
 MenuContainer.propTypes = {
     items: PropTypes.arrayOf(menuItemType).isRequired,
     closable: PropTypes.bool,
-    onClose: PropTypes.func,
+    onClick: PropTypes.func.isRequired,
     onItemSelected: PropTypes.func.isRequired
 }
 

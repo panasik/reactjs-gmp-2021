@@ -81,7 +81,7 @@ export default function AddEditFilmDialog(props) {
     const updateStateField = (fieldName, value) =>
         setFormState({ ...formState, [fieldName]: value });
 
-    const resetForm = (film) => {
+    const resetForm = () => {
         setFormState(initialFormState);
     }
 

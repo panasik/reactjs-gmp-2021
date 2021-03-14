@@ -6,6 +6,7 @@ import '../../general/styles/button.scss';
 import img from '../../../res/img/netflex-background.jpg';
 
 HeaderContainer.propTypes = {
+    height: PropTypes.string,
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node

@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import FilmViewer from "./film-viewer";
 import { allFilms, genres as allGenres } from "../../mockData/films-data";
 import Loading from "../general/loading/loading";
