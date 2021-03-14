@@ -1,151 +1,95 @@
-import React, {Suspense} from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import FilmViewer from "./film-viewer";
-import {allFilms, genres} from "../../mockData/films-data";
+import { allFilms, genres as allGenres } from "../../mockData/films-data";
 import Loading from "../general/loading/loading";
-import { v4 as uuidv4 } from 'uuid';
+import { usePrevState } from "../../util/hooks/prev-state";
 
 const AddEditFilmDialog = React.lazy(() => import("../film-dialog/add-edit-dialog/add-edit-dialog"));
 const DeleteDialog = React.lazy(() => import("../film-dialog/delete-dialog/delete-dialog"));
 
-const availableSortItems = [
-    {id: 0, title: 'Release Date', filmField: 'releaseDate'},
-    {id: 1, title: 'Title', filmField: 'title'},
-    {id: 2, title: 'Runtime', filmField: 'runtime'},
-];
+export default function FilmViewerContainer() {
+    const [isAddEditDialogOpen, setAddEditDialogOpen, wasAddEditDialogOpen] = usePrevState(false);
+    const [isDeleteDialogOpen, setDeleteDialogOpen, wasDeleteDialogOpen] = usePrevState(false);
+    const [selectedFilm, setSelectedFilm] = useState(null);
+    const [genres, setGenres] = useState([]);
+    const [films, setFilms] = useState([]);
 
-const SelectAllTabName = 'All';
+    useEffect(() => {
+        setTimeout(() => setGenres([...allGenres]), 1000);
+        setTimeout(() => setFilms([...allFilms]), 1000);
+    }, []);
 
-export default class FilmViewerContainer extends React.Component {
-    state = {
-        films: [],
-        tabs: [SelectAllTabName],
-        activeTab: SelectAllTabName,
-        genres: [],
-        sortItems: availableSortItems,
-        activeSortItem: availableSortItems[0],
-        isAddEditDialogOpen: false,
-        isDeleteDialogOpen: false
-    };
+    useEffect(() => {
+        if ((wasAddEditDialogOpen && !isAddEditDialogOpen) ||
+            (wasDeleteDialogOpen && !isDeleteDialogOpen)) {
+            // data loading
+            setTimeout(() => setFilms([...allFilms]), 2000);
+        }
+    }, [isAddEditDialogOpen, isDeleteDialogOpen]);
 
-    componentDidMount() {
-        // data loading
-        this.updateStateField('films', [...allFilms]);
-        this.updateStateField('genres', [...genres]);
-        this.updateStateField('tabs', [SelectAllTabName, ...genres]);
+
+    const saveFilm = (film) => {
+        if (selectedFilm) {
+            setSelectedFilm(null);
+            allFilms.splice(allFilms.findIndex(item => item.id === film.id), 1, film);
+        } else {
+            allFilms.push({
+                ...film,
+                id: allFilms.reduce((acc, cur) => acc < cur.id ? cur.id : acc, 0) + 1
+            })
+        }
+        setAddEditDialogOpen(false);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if ((prevState.isDeleteDialogOpen && !this.state.isDeleteDialogOpen) ||
-            (prevState.isAddEditDialogOpen && !this.state.isAddEditDialogOpen)) {
-            this.updateStateField('films', [...allFilms]);
-        }
+    const deleteFilm = (film) => {
+        setSelectedFilm(null);
+        allFilms.splice(allFilms.findIndex(item => item.id === film.id), 1);
+        setDeleteDialogOpen(false);
     }
 
-    updateStateField(fieldName, newValue) {
-        this.setState((state) => ({
-            ...state,
-            [fieldName]: newValue
-        }));
+    const onAddFilm = () => {
+        setSelectedFilm(null);
+        setAddEditDialogOpen(true);
     }
 
-    render() {
-        const {
-            tabs,
-            films,
-            activeSortItem,
-            sortItems,
-            searchStr,
-            activeTab,
-            selectedFilm,
-            isAddEditDialogOpen,
-            isDeleteDialogOpen
-        } = this.state;
+    const onEditFilm = (film) => {
+        setSelectedFilm(film);
+        setAddEditDialogOpen(true);
+    }
 
-        let displayedFilms = [...films];
+    const onDeleteFilm = (film) => {
+        setSelectedFilm(film);
+        setDeleteDialogOpen(true);
+    }
 
-        if (searchStr) {
-            displayedFilms = displayedFilms.filter(el => el.title.includes(searchStr));
-        }
-
-        if (activeTab && activeTab !== SelectAllTabName) {
-            displayedFilms = displayedFilms.filter(e => e.genres.includes(activeTab));
-        }
-
-        if (activeSortItem) {
-            displayedFilms.sort((a, b) => a[activeSortItem.filmField] > b[activeSortItem.filmField] ? 1 : -1)
-        }
-
-        const saveFilm = (film) => {
-            if (selectedFilm) {
-                this.updateStateField('selectedFilm', null);
-                allFilms.splice(allFilms.findIndex(item => item.id === film.id), 1, film);
-            } else {
-                allFilms.push({
-                    ...film,
-                    id: uuidv4()
-                })
+    return (
+        <>
+            <FilmViewer
+                films={films}
+                genres={genres}
+                onAddFilm={onAddFilm}
+                onEditFilm={onEditFilm}
+                onDeleteFilm={onDeleteFilm}
+            />
+            {
+                isAddEditDialogOpen &&
+                <Suspense fallback={<Loading />}>
+                    <AddEditFilmDialog
+                        film={selectedFilm}
+                        genres={genres}
+                        onSave={saveFilm}
+                        onClose={() => setAddEditDialogOpen(false)} />
+                </Suspense>
             }
-            this.updateStateField('isAddEditDialogOpen', false);
-        }
-
-        const deleteFilm = (film) => {
-            this.updateStateField('selectedFilm', null);
-            allFilms.splice(allFilms.findIndex(item => item.id === film.id), 1);
-            this.updateStateField('isDeleteDialogOpen', false);
-        }
-
-        const onAddFilm = () => {
-            this.updateStateField('selectedFilm', null);
-            this.updateStateField('isAddEditDialogOpen', true);
-        }
-
-        const onEditFilm = (film) => {
-            this.updateStateField('selectedFilm', film);
-            this.updateStateField('isAddEditDialogOpen', true);
-        }
-
-        const onDeleteFilm = (film) => {
-            this.updateStateField('selectedFilm', film);
-            this.updateStateField('isDeleteDialogOpen', true);
-        }
-
-        return (
-            <>
-                <FilmViewer
-                    films={displayedFilms}
-                    sortItems={sortItems}
-                    activeSortItem={activeSortItem}
-                    tabs={tabs}
-                    activeTab={activeTab}
-
-                    updateSearchStr={v => this.updateStateField('searchStr', v)}
-                    updateActiveSortItem={v => this.updateStateField('activeSortItem', v)}
-                    updateActiveTab={v => this.updateStateField('activeTab', v)}
-                    onAddFilm={onAddFilm}
-                    onEditFilm={onEditFilm}
-                    onDeleteFilm={onDeleteFilm}
-                />
-                {
-                    isAddEditDialogOpen &&
-                    <Suspense fallback={<Loading/>}>
-                        <AddEditFilmDialog
-                            film={selectedFilm}
-                            genres={genres}
-                            onSave={saveFilm}
-                            onReset={() => this.updateStateField('isAddEditDialogOpen', true)}
-                            onClose={() => this.updateStateField('isAddEditDialogOpen', false)}/>
-                    </Suspense>
-                }
-                {
-                    isDeleteDialogOpen &&
-                    <Suspense fallback={<Loading/>}>
-                        <DeleteDialog
-                            film={selectedFilm}
-                            onDelete={deleteFilm}
-                            onClose={() => this.updateStateField('isDeleteDialogOpen', false)}/>
-                    </Suspense>
-                }
-            </>
-        );
-    }
+            {
+                isDeleteDialogOpen &&
+                <Suspense fallback={<Loading />}>
+                    <DeleteDialog
+                        film={selectedFilm}
+                        onDelete={deleteFilm}
+                        onClose={() => setDeleteDialogOpen(false)} />
+                </Suspense>
+            }
+        </>
+    );
 }

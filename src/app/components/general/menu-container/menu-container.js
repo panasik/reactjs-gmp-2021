@@ -10,7 +10,7 @@ export const menuItemType = PropTypes.shape({
 });
 
 const MenuContainer = (props) => (
-    <Panel closable={props.closable} onClose={props.onClose}>
+    <Panel closable={props.closable} onClose={props.onClick}>
         {
             props.items.map(item =>
                 <span

@@ -15,7 +15,8 @@ export const allFilms = Array.from(Array(20).keys()).map(el => (
         title: `Film ${el}`,
         releaseDate: releaseDate[Math.floor(Math.random() * releaseDate.length)],
         url: 'http://test.com',
-        image: imgs[el%7],
+        image: imgs[el % 7],
+        rate: Math.random() * 5,
         genres: [genres[Math.floor(Math.random() * genres.length)]],
         overview: 'Loooooooooooooooooong teeeeeeeeeeeeeeeeextttttttttt',
         runtime: '1:35'
