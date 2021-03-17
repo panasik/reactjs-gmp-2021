@@ -53,11 +53,11 @@ export default function AddEditFilmDialog(props) {
     useEffect(() => {
         let items = [...filmFormItems];
         items.find(el => el.filmField === 'genres').available = props.genres || [];
-        if (isEditMode) {
-            items = formItems.filter(el => !el.showOnlyOnEdit).map(el => ({ ...el }));
+        if (!isEditMode) {
+            items = items.filter(el => !el.showOnlyOnEdit).map(el => ({ ...el }));
         }
         setFormItems(items);
-    }, [props.genres, props.film]);
+    }, [props.genres, props.film, isEditMode]);
 
     const calculateFormState = (film) => {
         const initState = {};

@@ -66,7 +66,7 @@ export default function FilmsContent(props) {
     const updateActiveFilm = useCallback((f) => {
         window.scrollTo(0, 0);
         props.updateActiveFilm(f);
-    }, [props.updateActiveFilm]);
+    }, [props]);
 
     return (
         <div className='FilmsContent'>

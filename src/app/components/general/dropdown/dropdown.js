@@ -9,7 +9,7 @@ function Dropdown(props) {
     const [isOpen, setOpen] = useToggle();
 
     const title = useMemo(() => props.selected && props.selected.title || 'Select Option',
-        [props.selected.title]);
+        [props.selected]);
 
     const onItemSelected = (el) => {
         setOpen();

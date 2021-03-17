@@ -3,6 +3,7 @@ import FilmViewer from "./film-viewer";
 import { allFilms, genres as allGenres } from "../../mockData/films-data";
 import Loading from "../general/loading/loading";
 import { usePrevState } from "../../util/hooks/prev-state";
+import { v4 as uuidv4 } from 'uuid';
 
 const AddEditFilmDialog = React.lazy(() => import("../film-dialog/add-edit-dialog/add-edit-dialog"));
 const DeleteDialog = React.lazy(() => import("../film-dialog/delete-dialog/delete-dialog"));
@@ -25,7 +26,7 @@ export default function FilmViewerContainer() {
             // data loading
             setTimeout(() => setFilms([...allFilms]), 2000);
         }
-    }, [isAddEditDialogOpen, isDeleteDialogOpen]);
+    }, [isAddEditDialogOpen, isDeleteDialogOpen, wasAddEditDialogOpen, wasDeleteDialogOpen]);
 
 
     const saveFilm = (film) => {
@@ -35,7 +36,7 @@ export default function FilmViewerContainer() {
         } else {
             allFilms.push({
                 ...film,
-                id: allFilms.reduce((acc, cur) => acc < cur.id ? cur.id : acc, 0) + 1
+                id: uuidv4()
             })
         }
         setAddEditDialogOpen(false);
