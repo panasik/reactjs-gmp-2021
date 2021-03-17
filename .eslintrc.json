@@ -19,7 +19,8 @@
     },
     "plugins": [
         "react",
-        "babel"
+        "babel",
+        "react-hooks"
     ],
     "rules": {
         "no-unused-vars": [
@@ -40,6 +41,8 @@
         "babel/object-curly-spacing": 1,
         "babel/semi": 1,
         "babel/no-unused-expressions": 1,
-        "babel/valid-typeof": 1
+        "babel/valid-typeof": 1,
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }
