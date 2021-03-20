@@ -1,5 +1,6 @@
 import React from 'react';
 import './error-boundary.scss';
+import PropTypes from 'prop-types';
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class ErrorBoundary extends React.Component {
         this.state = { hasError: false};
     }
 
-    static getDerivedStateFromError(error){
+    static getDerivedStateFromError(){
         return { hasError: true };
     }
 
@@ -21,6 +22,10 @@ class ErrorBoundary extends React.Component {
         }
         return this.props.children;
     }
+}
+
+ErrorBoundary.propTypes = {
+    children: PropTypes.element
 }
 
 export default ErrorBoundary;

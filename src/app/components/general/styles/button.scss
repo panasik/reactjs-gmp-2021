@@ -18,7 +18,7 @@
   }
 }
 
-.button-add-movies {
+.button-header {
   @extend .button;
   color: $red;
   background-color: rgba(red($grey), green($grey), blue($grey), 0.7);

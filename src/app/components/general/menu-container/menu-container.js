@@ -10,7 +10,7 @@ export const menuItemType = PropTypes.shape({
 });
 
 const MenuContainer = (props) => (
-    <Panel closable={props.closable} onClose={props.onClose}>
+    <Panel closable={props.closable} onClose={props.onClick}>
         {
             props.items.map(item =>
                 <span
@@ -27,7 +27,7 @@ const MenuContainer = (props) => (
 MenuContainer.propTypes = {
     items: PropTypes.arrayOf(menuItemType).isRequired,
     closable: PropTypes.bool,
-    onClose: PropTypes.func,
+    onClick: PropTypes.func.isRequired,
     onItemSelected: PropTypes.func.isRequired
 }
 

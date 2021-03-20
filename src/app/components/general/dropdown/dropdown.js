@@ -1,23 +1,26 @@
-import React, {useState} from 'react';
+import React, { useMemo } from 'react';
 import './dropdown.scss';
 import '../../general/styles/button.scss';
-import MenuContainer, {menuItemType} from '../menu-container/menu-container';
+import MenuContainer, { menuItemType } from '../menu-container/menu-container';
 import PropTypes from 'prop-types';
-
+import { useToggle } from "../../../util/hooks/toggle";
 
 function Dropdown(props) {
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setOpen] = useToggle();
+
+    const title = useMemo(() => props.selected && props.selected.title || 'Select Option',
+        [props.selected]);
 
     const onItemSelected = (el) => {
-        setOpen(false);
+        setOpen();
         props.onItemSelected(el);
     }
     return (
         <div className='dropdown-container'>
             <div
                 className='dropdown-button'
-                onClick={() => setOpen(!isOpen)}>
-                {props.selected && props.selected.title || 'Select Option'}
+                onClick={() => setOpen()}>
+                {title}
             </div>
             {
                 isOpen &&

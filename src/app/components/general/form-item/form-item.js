@@ -42,7 +42,7 @@ export default function FormItem(props) {
                     defaultTitle={'Select ' + props.label}
                     available={props.available}
                     selected={props.value || []}
-                    onSelect={props.updateValue}/>
+                    onSelect={props.updateValue} />
             }
         </>
     );

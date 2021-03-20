@@ -1,50 +1,48 @@
-import React from 'react';
-import Header from './header/header';
+import React, { useState } from 'react';
 import FilmsContent from './content/film-content';
 import Footer from './footer/footer';
 import Container from '../general/container/container';
 import PropTypes from "prop-types";
-import {filmType} from "./content/film-item/film-item";
-import {menuItemType} from "../general/menu-container/menu-container";
+import { filmType } from "../../util/prop-types/film.type";
 import './films-viewer.scss';
 
-FilmViewer.propTypes = {
-    films: PropTypes.arrayOf(filmType),
-    activeSortItem: menuItemType,
-    sortItems: PropTypes.arrayOf(menuItemType),
-    activeTab: PropTypes.string,
-    tabs: PropTypes.arrayOf(PropTypes.string),
+const ViewerHeader = React.lazy(() => import("./header/view-header/view-header"));
+const FilmDetailsHeader = React.lazy(() => import("./header/film-details-header/film-details-header"));
 
-    updateSearchStr: PropTypes.func.isRequired,
-    updateActiveSortItem: PropTypes.func.isRequired,
-    updateActiveTab: PropTypes.func.isRequired,
+FilmViewer.propTypes = {
+    films: PropTypes.arrayOf(filmType).isRequired,
+    genres: PropTypes.arrayOf(PropTypes.string).isRequired,
     onAddFilm: PropTypes.func.isRequired,
     onEditFilm: PropTypes.func.isRequired,
     onDeleteFilm: PropTypes.func.isRequired,
 }
 
 export default function FilmViewer(props) {
+    const [activeFilm, setActiveFilm] = useState(null);
+    const [searchStr, setSearchStr] = useState('');
 
     return (
         <>
             <div className='FilmsViewer'>
                 <Container
                     header={
-                        <Header
-                            updateSearchStr={props.updateSearchStr}
-                            onAddFilm={props.onAddFilm}/>
+                        activeFilm ?
+                            <FilmDetailsHeader
+                                film={activeFilm}
+                                onGoBack={() => setActiveFilm(null)} />
+                            :
+                            <ViewerHeader
+                                updateSearchStr={setSearchStr}
+                                onAddFilm={props.onAddFilm} />
                     }
                     footer={
-                        <Footer/>
+                        <Footer />
                     }>
                     <FilmsContent
                         films={props.films}
-                        activeTab={props.activeTab}
-                        activeSortItem={props.activeSortItem}
-                        sortItems={props.sortItems}
-                        tabs={props.tabs}
-                        updateActiveSortItem={props.updateActiveSortItem}
-                        updateActiveTab={props.updateActiveTab}
+                        genres={props.genres}
+                        searchStr={searchStr}
+                        updateActiveFilm={setActiveFilm}
                         onEditFilm={props.onEditFilm}
                         onDeleteFilm={props.onDeleteFilm}
                     />
