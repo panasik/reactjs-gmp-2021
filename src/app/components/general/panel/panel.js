@@ -24,6 +24,6 @@ Panel.propTypes = {
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
     ]).isRequired,
-}
+};
 
 export default Panel;

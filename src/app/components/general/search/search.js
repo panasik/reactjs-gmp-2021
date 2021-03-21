@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './search.scss';
 import '../styles/form.scss';
 import PropTypes from 'prop-types';
@@ -9,7 +9,7 @@ export default function Search(props) {
 
     const search = () => {
         props.search(text);
-    }
+    };
 
     return (
         <div className='search-content'>
@@ -29,5 +29,5 @@ export default function Search(props) {
 Search.propTypes = {
     searchButtonLabel: PropTypes.string,
     search: PropTypes.func.isRequired,
-}
+};
 

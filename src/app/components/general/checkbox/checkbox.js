@@ -17,6 +17,6 @@ Checkbox.propTypes = {
     title: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
     onCheck: PropTypes.func.isRequired
-}
+};
 
-export default Checkbox
+export default Checkbox;

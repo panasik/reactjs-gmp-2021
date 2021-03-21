@@ -12,4 +12,4 @@ export const usePrevState = (initValue) => {
     const prevState = ref.current;
 
     return [state, setStateAndPrev, prevState];
-}
+};

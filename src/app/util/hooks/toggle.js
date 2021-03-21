@@ -6,4 +6,4 @@ export const useToggle = (initValue = false) => {
     const toggle = useCallback(() => setFlag(!flag), [flag]);
 
     return [flag, toggle];
-}
+};

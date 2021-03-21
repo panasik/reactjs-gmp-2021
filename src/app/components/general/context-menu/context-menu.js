@@ -7,7 +7,7 @@ import {useToggle} from "../../../util/hooks/toggle";
 ContextMenu.propTypes = {
     items: PropTypes.arrayOf(menuItemType).isRequired,
     onItemSelected: PropTypes.func.isRequired
-}
+};
 
 function ContextMenu(props) {
     const [isMenuOpen, setMenuOpen] = useToggle(false);
@@ -15,7 +15,7 @@ function ContextMenu(props) {
     const onItemSelected = (el) => {
         setMenuOpen();
         props.onItemSelected(el);
-    }
+    };
 
     return (<>
         {

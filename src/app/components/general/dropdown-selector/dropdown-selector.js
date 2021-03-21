@@ -12,7 +12,7 @@ DropdownSelector.propTypes = {
     selected: PropTypes.arrayOf(PropTypes.string),
     available: PropTypes.arrayOf(PropTypes.string).isRequired,
     onSelect: PropTypes.func.isRequired
-}
+};
 
 export default function DropdownSelector(props) {
     const [isOpen, setOpen] = useToggle(false);
@@ -44,7 +44,7 @@ export default function DropdownSelector(props) {
             selected.splice(selected.indexOf(el.title), 1);
         }
         props.onSelect(selected);
-    }
+    };
     return (
         <>
             <div className="DropdownSelector">

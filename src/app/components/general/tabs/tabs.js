@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo, useState} from 'react';
 import './tabs.scss';
 import PropTypes from 'prop-types';
 
@@ -11,22 +11,40 @@ Tabs.propTypes = {
         PropTypes.node
     ]).isRequired,
     onTabClicked: PropTypes.func.isRequired
-}
+};
 
 function Tabs(props) {
+    const tabsNode = React.createRef();
+    const [offset, setOffset] = useState(0);
+    const [limit] = useState(10);
+    let total = props.tabs.length;
+
+    const visibleTabs = useMemo(() => props.tabs.slice(offset, offset + limit), [props.tabs, offset, limit]);
+    const isLastPart = useMemo(() => offset + limit === total, [total, offset, limit]);
+
     return (
         <>
             <div className='tabs-header-container'>
-                <div className='tabs-container'>
+                <div className='tabs-container' ref={tabsNode}>
                     {
-                        props.tabs.map(el =>
-                            <div
-                                key={el}
-                                className={`tab ${el ===props.activeTab ? 'Active' : ''}`}
-                                onClick={() => props.onTabClicked(el)}>
-                                {el}
-                            </div>
-                        )
+                        <>
+                            {offset > 0 && <span id="leftArr"
+                                className="arrow"
+                                onClick={() => setOffset(offset - 1)} />}
+
+                            {
+                                visibleTabs.map(el =>
+                                    <div
+                                        key={el}
+                                        className={`tab ${el === props.activeTab ? 'Active' : ''}`}
+                                        onClick={() => props.onTabClicked(el)}>
+                                        {el}
+                                    </div>
+                                )}
+                            {!isLastPart && <span id="rightArr"
+                                className="arrow"
+                                onClick={() => setOffset(offset + 1)} />}
+                        </>
                     }
                 </div>
                 {

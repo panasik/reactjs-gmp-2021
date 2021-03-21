@@ -24,4 +24,4 @@ export default function ViewerHeader(props) {
 ViewerHeader.propTypes = {
     updateSearchStr: PropTypes.func.isRequired,
     onAddFilm: PropTypes.func.isRequired
-}
+};

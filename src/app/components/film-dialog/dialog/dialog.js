@@ -23,6 +23,6 @@ Dialog.propTypes = {
         PropTypes.node
     ]).isRequired,
     onClose: PropTypes.func.isRequired
-}
+};
 
 export default Dialog;

@@ -27,8 +27,8 @@ const MenuContainer = (props) => (
 MenuContainer.propTypes = {
     items: PropTypes.arrayOf(menuItemType).isRequired,
     closable: PropTypes.bool,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     onItemSelected: PropTypes.func.isRequired
-}
+};
 
 export default MenuContainer;

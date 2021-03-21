@@ -11,11 +11,11 @@ HeaderContainer.propTypes = {
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
     ]).isRequired
-}
+};
 
 export default function HeaderContainer(props) {
     return (
-        <div className='HeaderContainer' style={{ height: (props.height || '100%') }}>
+        <div className='HeaderContainer' style={{height: (props.height || '100%')}}>
             <img
                 src={img}
                 alt='header'
