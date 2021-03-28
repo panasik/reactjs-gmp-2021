@@ -3,7 +3,6 @@ import FilmsContent from './content/film-content';
 import Footer from './footer/footer';
 import Container from '../general/container/container';
 import PropTypes from "prop-types";
-import {filmType} from "../../util/prop-types/film.type";
 import './films-viewer.scss';
 import {connect} from "react-redux";
 import {setActiveFilm, setActiveGenre, setSearchString, setSortOrder, setSortType} from "../../store/actions";
@@ -12,7 +11,9 @@ const ViewerHeader = React.lazy(() => import("./header/view-header/view-header")
 const FilmDetailsHeader = React.lazy(() => import("./header/film-details-header/film-details-header"));
 
 FilmViewer.propTypes = {
-    
+    filmItems: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.array]),
     filmViewer: PropTypes.shape(),
     onAddFilm: PropTypes.func.isRequired,
     onEditFilm: PropTypes.func.isRequired,

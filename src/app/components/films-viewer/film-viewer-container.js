@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Loading from "../general/loading/loading";
 import {usePrevState} from "../../util/hooks/prev-state";
 import {connect} from "react-redux";
-import {filmType} from "../../util/prop-types/film.type";
 import {addFilm, loadFilms, updateFilm, deleteFilm} from "../../store/actions/films";
 
 const AddEditFilmDialog = React.lazy(() => import("../film-dialog/add-edit-dialog/add-edit-dialog"));
@@ -92,6 +91,9 @@ function FilmViewerContainer({loadFilms, addFilm, updateFilm, deleteFilm, filmIt
 }
 
 FilmViewerContainer.propTypes = {
+    filmItems: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.array]),
     loadFilms: PropTypes.func.isRequired,
     addFilm: PropTypes.func.isRequired,
     updateFilm: PropTypes.func.isRequired,
