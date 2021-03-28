@@ -7,8 +7,7 @@ export const loadFilms = (params = {}) =>
     dispatch => fetch(moviesUrl + calcQueryStr(params))
         .then(response => response.json())
         .then(json => {
-            dispatch({type: ACTIONS.SET_ALL_FILMS, payload: json.data || []});
-            dispatch({type: ACTIONS.SET_ALL_GENRES_OF_FILMS, payload: json.data || []});
+            dispatch({type: ACTIONS.SET_ALL_FILM_ITEMS, payload: json.data || []});
         });
 
 const calcQueryStr =

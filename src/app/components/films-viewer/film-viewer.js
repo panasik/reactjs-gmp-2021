@@ -12,8 +12,7 @@ const ViewerHeader = React.lazy(() => import("./header/view-header/view-header")
 const FilmDetailsHeader = React.lazy(() => import("./header/film-details-header/film-details-header"));
 
 FilmViewer.propTypes = {
-    films: PropTypes.arrayOf(filmType).isRequired,
-    genres: PropTypes.arrayOf(PropTypes.string).isRequired,
+    
     filmViewer: PropTypes.shape(),
     onAddFilm: PropTypes.func.isRequired,
     onEditFilm: PropTypes.func.isRequired,
@@ -45,8 +44,8 @@ function FilmViewer(props) {
                         <Footer />
                     }>
                     <FilmsContent
-                        films={props.films}
-                        genres={props.genres}
+                        films={props.filmItems.films || []}
+                        genres={props.filmItems.genres || []}
                         activeGenre={props.filmViewer.activeGenre}
                         sortType={props.filmViewer.sortType}
                         sortOrder={props.filmViewer.sortOrder}
@@ -65,9 +64,9 @@ function FilmViewer(props) {
 }
 
 function mapStateToProps(state) {
-    const {films, filmViewer, genres} = state;
+    const {filmItems, filmViewer} = state;
 
-    return {films, filmViewer, genres};
+    return {filmItems, filmViewer};
 }
 
 function mapDispatchToProps(dispatch) {

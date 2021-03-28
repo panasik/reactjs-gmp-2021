@@ -6,7 +6,7 @@ export const filmType = PropTypes.shape({
     poster_path: PropTypes.string,
     release_date: PropTypes.string.isRequired,
     overview: PropTypes.string,
-    vote_average: PropTypes.number.isRequired,
+    vote_average: PropTypes.number,
     genres: PropTypes.arrayOf(PropTypes.string),
     runtime: PropTypes.number,
     budget: PropTypes.number,

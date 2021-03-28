@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import {filmType} from "../../../util/prop-types/film.type";
 
 FilmsContent.propTypes = {
-    films: PropTypes.arrayOf(filmType),
+    
     searchStr: PropTypes.string,
     genres: PropTypes.arrayOf(PropTypes.string),
     updateActiveFilm: PropTypes.func.isRequired,

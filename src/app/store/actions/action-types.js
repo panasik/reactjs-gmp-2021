@@ -1,6 +1,6 @@
 export const ACTIONS = {
     // films
-    SET_ALL_FILMS: 'SET_ALL_FILMS',
+    SET_ALL_FILM_ITEMS: 'SET_ALL_FILM_ITEMS',
 
     // film viewer
     SET_ACTIVE_FILM: 'SET_ACTIVE_FILM',
@@ -8,7 +8,4 @@ export const ACTIONS = {
     SET_ACTIVE_GENRE: 'SET_ACTIVE_GENRE',
     SET_SORT_TYPE: 'SET_SORT_TYPE',
     SET_SORT_ORDER: 'SET_SORT_ORDER',
-
-    // genres
-    SET_ALL_GENRES_OF_FILMS: 'SET_ALL_GENRES_OF_FILMS'
 };

@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux';
-import {films} from './films';
-import {genres} from './genres';
+import {filmItems} from './films';
 import {filmViewer} from "./film-viewer";
 
-export default combineReducers({films, genres, filmViewer});
+export default combineReducers({filmItems, filmViewer});

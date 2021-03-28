@@ -10,7 +10,7 @@ import {addFilm, loadFilms, updateFilm, deleteFilm} from "../../store/actions/fi
 const AddEditFilmDialog = React.lazy(() => import("../film-dialog/add-edit-dialog/add-edit-dialog"));
 const DeleteDialog = React.lazy(() => import("../film-dialog/delete-dialog/delete-dialog"));
 
-function FilmViewerContainer({loadFilms, addFilm, updateFilm, deleteFilm, films, genres, filmViewer}) {
+function FilmViewerContainer({loadFilms, addFilm, updateFilm, deleteFilm, filmItems, filmViewer}) {
     const [isAddEditDialogOpen, setAddEditDialogOpen, wasAddEditDialogOpen] = usePrevState(false);
     const [isDeleteDialogOpen, setDeleteDialogOpen, wasDeleteDialogOpen] = usePrevState(false);
     const [selectedFilm, setSelectedFilm] = useState(null);
@@ -64,8 +64,6 @@ function FilmViewerContainer({loadFilms, addFilm, updateFilm, deleteFilm, films,
     return (
         <>
             <FilmViewer
-                films={films}
-                genres={genres}
                 onAddFilm={onAddFilm}
                 onEditFilm={onEditFilm}
                 onDeleteFilm={onDeleteFilm}
@@ -75,7 +73,7 @@ function FilmViewerContainer({loadFilms, addFilm, updateFilm, deleteFilm, films,
                 <Suspense fallback={<Loading />}>
                     <AddEditFilmDialog
                         film={selectedFilm}
-                        genres={genres}
+                        genres={filmItems.genres || []}
                         onSave={saveFilm}
                         onClose={() => setAddEditDialogOpen(false)} />
                 </Suspense>
@@ -98,15 +96,13 @@ FilmViewerContainer.propTypes = {
     addFilm: PropTypes.func.isRequired,
     updateFilm: PropTypes.func.isRequired,
     deleteFilm: PropTypes.func.isRequired,
-    films: PropTypes.arrayOf(filmType).isRequired,
-    genres: PropTypes.arrayOf(PropTypes.string).isRequired,
     filmViewer: PropTypes.shape()
 };
 
 function mapStateToProps(state) {
-    const {films, genres, filmViewer} = state;
+    const {filmItems, filmViewer} = state;
 
-    return {films, filmViewer, genres};
+    return {filmItems, filmViewer};
 }
 
 function mapDispatchToProps(dispatch) {
