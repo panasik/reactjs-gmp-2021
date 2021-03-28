@@ -16,6 +16,10 @@ const filmFormItems = [{
     type: 'Text',
     filmField: 'title'
 }, {
+    label: 'Tagline',
+    type: 'Text',
+    filmField: 'tagline'
+}, {
     label: 'Release Date',
     type: 'Date',
     filmField: 'release_date'
@@ -88,7 +92,9 @@ export default function AddEditFilmDialog(props) {
     const save = () => {
         const newFilm = {...props.film};
         filmFormItems.forEach(el => {
-            newFilm[el.filmField] = formState[el.filmField];
+            if (el.filmField !== 'id'){
+                newFilm[el.filmField] = formState[el.filmField];
+            }
         });
         newFilm.runtime = +newFilm.runtime;
         props.onSave(newFilm);
