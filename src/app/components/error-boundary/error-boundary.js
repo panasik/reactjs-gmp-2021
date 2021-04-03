@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 class ErrorBoundary extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { hasError: false};
+        this.state = {hasError: false};
     }
 
     static getDerivedStateFromError(){
-        return { hasError: true };
+        return {hasError: true};
     }
 
     componentDidCatch(error, infoError){
@@ -18,7 +18,7 @@ class ErrorBoundary extends React.Component {
 
     render(){
         if(this.state.hasError){
-            return <div className="error-info">Sorry, we are aware of this error and are fixing it</div>
+            return <div className="error-info">Sorry, we are aware of this error and are fixing it</div>;
         }
         return this.props.children;
     }
@@ -26,6 +26,6 @@ class ErrorBoundary extends React.Component {
 
 ErrorBoundary.propTypes = {
     children: PropTypes.element
-}
+};
 
 export default ErrorBoundary;

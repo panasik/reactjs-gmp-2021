@@ -10,7 +10,7 @@ FormItem.propTypes = {
     value: PropTypes.node,
     available: PropTypes.arrayOf(PropTypes.string),
     updateValue: PropTypes.func.isRequired
-}
+};
 
 export default function FormItem(props) {
     const placeholder = props.label.charAt(0).toUpperCase() + props.label.slice(1).toLocaleLowerCase() + ' here';
@@ -27,7 +27,7 @@ export default function FormItem(props) {
                         name={props.label}
                         placeholder={placeholder}
                         type={props.type.toLowerCase()}
-                        value={props.value}
+                        value={props.value || ''}
                         onChange={(event) => props.updateValue(event.target.value)}
                     />
                 }

@@ -36,7 +36,7 @@
             "unix"
         ],
         "babel/new-cap": 1,
-        "babel/camelcase": 1,
+        "babel/camelcase": 0,
         "babel/no-invalid-this": 1,
         "babel/object-curly-spacing": 1,
         "babel/semi": 1,

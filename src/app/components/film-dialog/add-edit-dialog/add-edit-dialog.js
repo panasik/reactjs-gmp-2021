@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../general/styles/dialog.scss';
 import '../../general/styles/button.scss';
 import PropTypes from 'prop-types';
 import Dialog from '../dialog/dialog';
-import { filmType } from '../../../util/prop-types/film.type';
+import {filmType} from '../../../util/prop-types/film.type';
 import FormItem from '../../general/form-item/form-item';
 
 const filmFormItems = [{
@@ -16,13 +16,17 @@ const filmFormItems = [{
     type: 'Text',
     filmField: 'title'
 }, {
+    label: 'Tagline',
+    type: 'Text',
+    filmField: 'tagline'
+}, {
     label: 'Release Date',
     type: 'Date',
-    filmField: 'releaseDate'
+    filmField: 'release_date'
 }, {
     label: 'Movie url',
     type: 'Text',
-    filmField: 'url'
+    filmField: 'poster_path'
 }, {
     label: 'Genre',
     type: 'Dropdown',
@@ -43,18 +47,18 @@ AddEditFilmDialog.propTypes = {
     genres: PropTypes.arrayOf(PropTypes.string),
     onSave: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
-}
+};
 
 export default function AddEditFilmDialog(props) {
     const isEditMode = !!props.film;
-    const [formItems, setFormItems] = useState([...filmFormItems]);
+    const [formItems, setFormItems] = useState([]);
 
 
     useEffect(() => {
-        let items = [...filmFormItems];
+        let items = filmFormItems.map(el => ({...el}));
         items.find(el => el.filmField === 'genres').available = props.genres || [];
         if (!isEditMode) {
-            items = items.filter(el => !el.showOnlyOnEdit).map(el => ({ ...el }));
+            items = items.filter(el => !el.showOnlyOnEdit);
         }
         setFormItems(items);
     }, [props.genres, props.film, isEditMode]);
@@ -79,19 +83,22 @@ export default function AddEditFilmDialog(props) {
     })), [props.film]);
 
     const updateStateField = (fieldName, value) =>
-        setFormState({ ...formState, [fieldName]: value });
+        setFormState({...formState, [fieldName]: value});
 
     const resetForm = () => {
         setFormState(initialFormState);
-    }
+    };
 
     const save = () => {
-        const newFilm = {};
+        const newFilm = {...props.film};
         filmFormItems.forEach(el => {
-            newFilm[el.filmField] = formState[el.filmField]
+            if (el.filmField !== 'id'){
+                newFilm[el.filmField] = formState[el.filmField];
+            }
         });
+        newFilm.runtime = +newFilm.runtime;
         props.onSave(newFilm);
-    }
+    };
 
     return (
         <Dialog onClose={() => props.onClose()}>

@@ -9,7 +9,7 @@ FilmItem.propTypes = {
     actions: PropTypes.array,
     film: filmType.isRequired,
     clickHandler: PropTypes.func
-}
+};
 
 export default function FilmItem(props) {
     const [displayMenu, setDisplayMenu] = useState(false);
@@ -28,12 +28,13 @@ export default function FilmItem(props) {
                 }
                 <img className='FilmImage'
                     onClick={() => props.clickHandler()}
-                    src={props.film.image || noImage}
+                    src={props.film.poster_path || noImage}
+                    onError={(e)=>{e.target.onerror = null; e.target.src = noImage;}}
                     alt='film-logo'>
                 </img>
                 <div className='FilmTitleContainer'>
                     <div className='FilmTitle'>{props.film.title}</div>
-                    <div className='FilmReleaseDate'>{props.film.releaseDate}</div>
+                    <div className='FilmReleaseDate'>{(new Date(props.film.release_date)).getFullYear()}</div>
                 </div>
                 <div className='FilmGenres'>{Array.isArray(props.film.genres) ? props.film.genres.join(', ') : ''}</div>
             </div>
