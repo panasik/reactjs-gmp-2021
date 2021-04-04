@@ -1,25 +1,20 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useMemo, useEffect} from 'react';
 import './film-content.scss';
 import FilmItem from './film-item/film-item';
 import Tabs from '../../general/tabs/tabs';
 import Dropdown from '../../general/dropdown/dropdown';
-import PropTypes from 'prop-types';
-import {filmType} from "../../../util/prop-types/film.type";
-
-FilmsContent.propTypes = {
-    films: PropTypes.arrayOf(filmType),
-    searchStr: PropTypes.string,
-    genres: PropTypes.arrayOf(PropTypes.string),
-    updateActiveFilm: PropTypes.func.isRequired,
-    updateActiveGenre: PropTypes.func.isRequired,
-    updateSortType: PropTypes.func.isRequired,
-    updateSortOrder: PropTypes.func.isRequired,
-    activeGenre: PropTypes.string,
-    sortType: PropTypes.string.isRequired,
-    sortOrder: PropTypes.string.isRequired,
-    onEditFilm: PropTypes.func.isRequired,
-    onDeleteFilm: PropTypes.func.isRequired,
-};
+import {useDispatch, useSelector} from "react-redux";
+import {selectFilms, selectGenres, selectSearchParams} from "../../../store/selectors";
+import {
+    loadFilms,
+    setActiveGenre,
+    setAddEditDialogOpen,
+    setConfirmationDialog,
+    setFilmDetails,
+    setSelectedFilm,
+    setSortOrder,
+    setSortType
+} from "../../../store/slices";
 
 const availableSortItems = [
     {id: 0, title: 'Release Date', filmField: 'release_date'},
@@ -29,52 +24,59 @@ const availableSortItems = [
 
 const SelectAllTabName = 'All';
 
-export default function FilmsContent(props) {
-    const [activeTab, setActiveTab] = useState(props.activeGenre || SelectAllTabName);
-    const [activeSortItem, setActiveSortItem] = useState(availableSortItems.find(el => el.filmField === props.sortType));
+export default function FilmsContent() {
+    const films = useSelector(selectFilms);
+    const searchParams = useSelector(selectSearchParams);
+    const genres = useSelector(selectGenres);
+    const dispatch = useDispatch();
 
-    const updateActiveTab = useCallback((tab) => {
-        setActiveTab(tab);
-        if (tab !== SelectAllTabName) {
-            props.updateActiveGenre(tab);
-        } else {
-            props.updateActiveGenre(undefined);
-        }
-    }, [props]);
-
-    const updateActiveSortItem = useCallback((sortBy) => {
-        setActiveSortItem(sortBy);
-        props.updateSortType(sortBy.filmField);
-    }, [props]);
-
-    const updateSortOrder = useCallback(() => {
-        const sortOr = props.sortOrder === 'asc' ? 'desc' : 'asc';
-        props.updateSortOrder(sortOr);
-    }, [props]);
-
-    let tabs = useMemo(() => [SelectAllTabName, ...props.genres], [props.genres]);
+    let activeTab = useMemo(() => searchParams.activeGenre || SelectAllTabName, [searchParams.activeGenre]);
+    let activeSortItem = useMemo(() => availableSortItems.find(el => el.filmField === searchParams.sortType), [searchParams.sortType]);
+    let tabs = useMemo(() => [SelectAllTabName, ...genres], [genres]);
 
     const actions = [
         {
             id: 0,
             title: 'Edit',
             handle: (film) => {
-                props.onEditFilm(film);
+                dispatch(setSelectedFilm(film));
+                dispatch(setAddEditDialogOpen(true));
             }
         },
         {
             id: 1,
             title: 'Delete',
             handle: (film) => {
-                props.onDeleteFilm(film);
+                dispatch(setSelectedFilm(film));
+                dispatch(setConfirmationDialog({
+                    title: 'Delete Movie',
+                    description: 'Are you sure you want to delete this movie?'
+                }));
             }
         },
     ];
 
-    const updateActiveFilm = useCallback((f) => {
+    useEffect(() => {
+        dispatch(loadFilms());
+    }, [dispatch]);
+
+    const updateActiveTab = (tab) => {
+        if (tab !== SelectAllTabName) {
+            dispatch(setActiveGenre(tab));
+        } else {
+            dispatch(setActiveGenre(undefined));
+        }
+    };
+
+    const updateSortOrder = () => {
+        const sortOrder = searchParams.sortOrder === 'asc' ? 'desc' : 'asc';
+        dispatch(setSortOrder(sortOrder));
+    };
+
+    const updateActiveFilm = (f) => {
         window.scrollTo(0, 0);
-        props.updateActiveFilm(f);
-    }, [props]);
+        dispatch(setFilmDetails(f));
+    };
 
     return (
         <div className='FilmsContent'>
@@ -86,26 +88,27 @@ export default function FilmsContent(props) {
                     <>
                         <div className='SortLabel'>Sort by</div>
                         <Dropdown
+                            hideTriangle={true}
                             selected={activeSortItem}
                             items={availableSortItems}
-                            onItemSelected={updateActiveSortItem}
+                            onItemSelected={sortBy => dispatch(setSortType(sortBy.filmField))}
                         />
                         <div onClick={updateSortOrder}
-                            className={`SortButton ${props.sortOrder === 'asc' ? 'AscSorting' : 'DscSorting'}`}>
+                            className={`SortButton ${searchParams.sortOrder === 'asc' ? 'AscSorting' : 'DscSorting'}`}>
                         </div>
                     </>
                 }>
                 {
                     <div className='ContentContainer'>
                         <div className='FilmsCountContainer'>
-                            <span className='FilmsCount'>{props.films.length}</span> movies found
+                            <span className='FilmsCount'>{films.length}</span> movies found
                         </div>
                         {
-                            props.films.length
+                            films.length
                                 ?
                                 <div className='FilmContainer'>
                                     {
-                                        props.films.map(el =>
+                                        films.map(el =>
                                             <FilmItem
                                                 key={el.id}
                                                 film={el}

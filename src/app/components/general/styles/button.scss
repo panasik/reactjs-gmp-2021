@@ -35,6 +35,11 @@
   color: $red;
 }
 
+.PrimaryButton {
+  @extend .button;
+  background-color: $red;
+}
+
 .DropdownButton {
   @extend .button;
   text-align: end;
