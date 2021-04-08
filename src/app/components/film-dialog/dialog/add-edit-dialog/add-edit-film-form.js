@@ -29,16 +29,14 @@ const FilmSchema = Yup.object().shape({
 });
 
 AddEditFilmForm.propTypes = {
-    id: PropTypes.number,
     film: filmType,
     genres: PropTypes.arrayOf(PropTypes.string),
     onSave: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
     setFieldValue: PropTypes.func.isRequired
 };
 
-function AddEditFilmForm(props) {
-    const isEditMode = !!props.id;
+function AddEditFilmForm({film, genres, setFieldValue, handleReset}) {
+    const isEditMode = film && film.id;
 
     return (
         <Form>
@@ -82,8 +80,8 @@ function AddEditFilmForm(props) {
                             <DropdownSelector
                                 defaultTitle='Select Genres'
                                 markInvalid={!!meta.error}
-                                available={props.genres || []}
-                                onSelect={(items) => props.setFieldValue('genres', items)}
+                                available={genres || []}
+                                onSelect={(items) => setFieldValue('genres', items)}
                                 {...field}/>
 
                             {meta.error && (
@@ -110,7 +108,7 @@ function AddEditFilmForm(props) {
                 <div key='reset'
                     tabIndex={0}
                     className='ActionButton'
-                    onClick={() => props.onClose(false)}>
+                    onClick={handleReset}>
                     Reset
                 </div>
                 <button type="submit"
@@ -129,18 +127,18 @@ const AddEditFilmFormikWrapper = withFormik({
     validateOnChange: false,
     validateOnBlur: false,
 
-    mapPropsToValues: props => {
-        if (!props.film) {
+    mapPropsToValues: ({film}) => {
+        if (!film) {
             return {title: '', release_date: '', poster_path: '', genres: [], overview: '', runtime: ''};
         }
         return {
-            id: props.film.id,
-            title: props.film.title || '',
-            release_date: props.film.release_date || '',
-            poster_path: props.film.poster_path || '',
-            genres: props.film.genres || [],
-            overview: props.film.overview || '',
-            runtime: props.film.runtime || ''
+            id: film.id,
+            title: film.title || '',
+            release_date: film.release_date || '',
+            poster_path: film.poster_path || '',
+            genres: film.genres || [],
+            overview: film.overview || '',
+            runtime: film.runtime || ''
         };
     },
 
@@ -149,7 +147,10 @@ const AddEditFilmFormikWrapper = withFormik({
             ...values,
             runtime: +values.runtime,
             vote_average: values.vote_average || 0
-        })
+        }),
+    handleReset: (values, {film}) => { 
+        values = film
+    }
 })(AddEditFilmForm);
 
 export default AddEditFilmFormikWrapper;

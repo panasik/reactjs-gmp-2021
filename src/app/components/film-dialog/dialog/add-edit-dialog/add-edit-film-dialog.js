@@ -48,13 +48,17 @@ export default function AddEditFilmDialog() {
         }
     };
 
+    const closeDialog = () => {
+        dispatch(setAddEditDialogOpen(false));
+        dispatch(setSelectedFilm(null));
+    }
+
     return (
-        <Dialog onClose={() => dispatch(setAddEditDialogOpen(false))}>
+        <Dialog onClose={closeDialog}>
             <AddEditFilmForm
                 film={film}
                 genres={genres}
                 onSave={saveFilm}
-                onClose={() => dispatch(setAddEditDialogOpen(false))}
             />
         </Dialog>
     );
