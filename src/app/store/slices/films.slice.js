@@ -21,6 +21,7 @@ export const loadFilms = (onSuccess = () => {}, onError = () => {}) =>
         .then(result => {
             dispatch(setFilms(result));
             dispatch(setGenres(result));
+            return result;
         })
         .then(d => onSuccess(dispatch, d))
         .catch(err => onError(dispatch, err));

@@ -32,7 +32,8 @@ AddEditFilmForm.propTypes = {
     film: filmType,
     genres: PropTypes.arrayOf(PropTypes.string),
     onSave: PropTypes.func.isRequired,
-    setFieldValue: PropTypes.func.isRequired
+    setFieldValue: PropTypes.func.isRequired,
+    handleReset: PropTypes.func.isRequired
 };
 
 function AddEditFilmForm({film, genres, setFieldValue, handleReset}) {
@@ -149,7 +150,7 @@ const AddEditFilmFormikWrapper = withFormik({
             vote_average: values.vote_average || 0
         }),
     handleReset: (values, {film}) => { 
-        values = film
+        values = film;
     }
 })(AddEditFilmForm);
 
