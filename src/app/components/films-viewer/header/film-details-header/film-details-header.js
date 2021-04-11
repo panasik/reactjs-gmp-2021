@@ -2,7 +2,6 @@ import React from 'react';
 import './film-details-header.scss';
 import PropTypes from 'prop-types';
 import '../../../general/styles/button.scss';
-import HeaderContainer from "../header-container";
 import {filmType} from "../../../../util/prop-types/film.type";
 import noImage from "../../../../res/img/no-image.png";
 
@@ -18,7 +17,7 @@ export default function FilmDetailsHeader(props) {
         return 'Bad';
     };
     return (
-        <HeaderContainer>
+        <>
             <div className='FilmDetailsBack button-header'
                 onClick={() => props.onGoBack()}>Back
             </div>
@@ -30,7 +29,7 @@ export default function FilmDetailsHeader(props) {
                 <div className="FilmDetails">
                     <div className='FilmTitleContainer'>
                         <div className="FilmTitle">{props.film.title}</div>
-                        <div className={"FilmRate " + getRateColor()}>{props.film.vote_average.toFixed(1)}</div>
+                        <div className={"FilmRate " + getRateColor()}>{props.film.vote_average?.toFixed(1) || 0}</div>
                     </div>
                     <div className='FilmGenres'>{Array.isArray(props.film.genres) ? props.film.genres.join(', ') : ''}</div>
                     <div className="FilmData">
@@ -40,6 +39,6 @@ export default function FilmDetailsHeader(props) {
                     <div className="FilmOverview">{props.film.overview}</div>
                 </div>
             </div>
-        </HeaderContainer>
+        </>
     );
 }
