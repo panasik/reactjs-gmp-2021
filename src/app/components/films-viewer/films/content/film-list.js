@@ -4,8 +4,6 @@ import FilmItem from './film-item/film-item';
 import {useDispatch, useSelector} from "react-redux";
 import {selectFilms} from "../../../../store/selectors";
 import {
-    loadFilms,
-    setActiveGenre,
     setAddEditDialogOpen,
     setConfirmationDialog,
     setSearchString,
@@ -20,18 +18,11 @@ export default function FilmsList() {
     const history = useHistory();
     const location = useLocation();
     const query = new URLSearchParams(location.search);
-    const genre = query.get("genre");
     const title = query.get("title");
 
     useEffect(() => {
         dispatch(setSearchString(title));
-    }, [title]);
-
-    useEffect(() => {
-        if (!films.length) {
-            history.push('/no-films' + location.search);
-        }
-    }, [history, location.search, films.length]);
+    }, [title, dispatch]);
 
     const actions = [
         {
@@ -65,7 +56,8 @@ export default function FilmsList() {
 
     return (<>
 
-        <div className='FilmsCountContainer'>
+        {films.length ? 
+        <><div className='FilmsCountContainer'>
             <span className='FilmsCount'>{films.length}</span> movies found
             </div>
 
@@ -78,7 +70,7 @@ export default function FilmsList() {
                         actions={actions}
                         clickHandler={() => viewFilmDetails(el)}/>)
             }
-        </div>
+        </div></> : <><div className='FilmNoList'>No Movie Found</div></>}
     </>
     );
 }

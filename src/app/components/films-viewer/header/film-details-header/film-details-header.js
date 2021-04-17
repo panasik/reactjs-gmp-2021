@@ -24,8 +24,10 @@ export default function FilmDetailsHeader() {
     };
 
     useEffect(() => {
-        dispatch(loadFilmDetails(filmId));
-    }, [dispatch, filmId]);
+        dispatch(loadFilmDetails(filmId, () => {} , () => {
+            history.push("/page-not-found");
+        }));
+    }, [dispatch, filmId, history]);
 
     const goBack = () => {
         history.push({

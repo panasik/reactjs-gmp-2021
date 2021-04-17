@@ -12,7 +12,7 @@ import {useHistory} from "react-router-dom";
 export default function PageNotFound() {
     let history = useHistory();
     return (
-        <>
+        <div className='PageNotFoundViewer'>
                 <Container
                     footer={
                         <Footer/>
@@ -29,6 +29,6 @@ export default function PageNotFound() {
                         </div>
                     </div>
                 </Container>
-        </>
+        </div>
     );
 }

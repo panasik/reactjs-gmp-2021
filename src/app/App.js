@@ -9,8 +9,6 @@ import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom
 const FilmsViewer = React.lazy(() => import("./components/films-viewer/film-viewer"));
 const Films = React.lazy(() => import("./components/films-viewer/films/films"));
 const PageNotFound = React.lazy(() => import("./page-not-found/page-not-found"));
-const NoFilms = React.lazy(() => import("./components/films-viewer/no-films/no-films"));
-const Home = React.lazy(() => import("./home/home"));
 
 function App() {
     return (
@@ -22,29 +20,20 @@ function App() {
                             <Route exact
                                 path="/"
                                 render={() => (
-                                    <Redirect to="/home" />
+                                    <Redirect to="/films" />
                                 )} />
-                            <Route exact path="/home">
-                                <Suspense fallback={<Loading />}>
-                                    <Home />
-                                </Suspense>
-                            </Route>
-                            <Route exact path="/no-films">
-                                <Suspense fallback={<Loading />}>
-                                    <FilmsViewer><NoFilms pathname={location.pathname}/></FilmsViewer>
-                                </Suspense>
-                            </Route>
                             <Route path="/films">
                                 <Suspense fallback={<Loading />}>
                                     <FilmsViewer><Films /></FilmsViewer>
                                 </Suspense>
                             </Route>
-                            <Route exact path="/page-not-found">
+                            <Route  path="/page-not-found">
                                 <Suspense fallback={<Loading />}>
                                     <PageNotFound />
                                 </Suspense>
                             </Route>
-                            <Route path="*"
+                            <Route exact
+                                path="*"
                                 render={() => (
                                     <Redirect to="/page-not-found" />
                                 )} />

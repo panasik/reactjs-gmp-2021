@@ -35,7 +35,7 @@ export const FilmApi = {
 
     loadFilmById: (id) =>
             fetch(moviesUrl + `/${id}`)
-                .then(response => !response.ok? response.text().then(e => { throw e; }) : response.json())
+                .then(response => !response.ok? response.text().then(e => { throw e; }) : response.json()),
 };
 
 
