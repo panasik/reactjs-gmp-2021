@@ -31,7 +31,7 @@ function App() {
                             </Route>
                             <Route exact path="/no-films">
                                 <Suspense fallback={<Loading />}>
-                                    <FilmsViewer><NoFilms /></FilmsViewer>
+                                    <FilmsViewer><NoFilms pathname={location.pathname}/></FilmsViewer>
                                 </Suspense>
                             </Route>
                             <Route path="/films">

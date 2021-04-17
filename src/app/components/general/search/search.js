@@ -22,7 +22,7 @@ export default function Search({searchString, searchButtonLabel, search}) {
                 placeholder='What do you want to watch?'
                 onKeyDown={event => event.key === "Enter" && onSearch()}
                 onChange={(event) => setText(event.target.value)}/>
-            <div className='button-search' onClick={search}>
+            <div className='button-search' onClick={onSearch}>
                 {searchButtonLabel || 'Search'}
             </div>
         </div>

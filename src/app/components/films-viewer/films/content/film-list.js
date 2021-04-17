@@ -24,13 +24,8 @@ export default function FilmsList() {
     const title = query.get("title");
 
     useEffect(() => {
-        dispatch(loadFilms());
-    }, [dispatch]);
-
-    useEffect(() => {
-        dispatch(setActiveGenre(genre));
         dispatch(setSearchString(title));
-    }, [dispatch, genre, title]);
+    }, [title]);
 
     useEffect(() => {
         if (!films.length) {
