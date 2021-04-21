@@ -32,7 +32,9 @@ const {updateActiveGenre, updateSearchString, updateSortOrder, updateSortType, u
 export const setSearchString = (searchString) =>
     dispatch => {
         dispatch(updateSearchString(searchString));
-        dispatch(loadFilms());
+        if(searchString){
+            dispatch(loadFilms()); 
+        }
     };
 
 export const setActiveGenre = (activeGenre) =>
