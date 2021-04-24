@@ -40,7 +40,6 @@ export const setSearchString = (searchString) =>
 export const setActiveGenre = (activeGenre) =>
     dispatch => {
         dispatch(updateActiveGenre(activeGenre));
-        dispatch(loadFilms());
     };
 
 export const setSortType = (sortType) =>
@@ -60,5 +59,7 @@ export const setLimit = (limit) =>
         dispatch(updateLimit(limit));
         dispatch(loadFilms());
     };
+
+export const selectSearchParams = state => state.searchParams;
 
 export default searchParamsSlice.reducer;

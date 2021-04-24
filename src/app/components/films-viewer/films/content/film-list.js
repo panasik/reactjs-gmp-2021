@@ -1,14 +1,13 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './film-list.scss';
 import FilmItem from './film-item/film-item';
 import {useDispatch, useSelector} from "react-redux";
-import {selectFilms} from "../../../../store/selectors";
 import {
+    selectFilms,
     setAddEditDialogOpen,
     setConfirmationDialog,
-    setSearchString,
     setSelectedFilm
-} from "../../../../store/slices";
+} from "../../../../store";
 import {useHistory, useLocation} from "react-router-dom";
 
 
@@ -17,12 +16,6 @@ export default function FilmsList() {
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
-    const query = new URLSearchParams(location.search);
-    const title = query.get("title");
-
-    useEffect(() => {
-        dispatch(setSearchString(title));
-    }, [title, dispatch]);
 
     const actions = [
         {

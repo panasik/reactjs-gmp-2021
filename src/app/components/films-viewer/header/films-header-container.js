@@ -1,9 +1,8 @@
-import React, {Suspense} from 'react';
+import React, {Suspense, useEffect} from 'react';
 import '../../general/styles/button.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {setAddEditDialogOpen, setSearchString} from "../../../store/slices";
+import {setAddEditDialogOpen, setSearchString, selectSearchParams, setActiveGenre} from "../../../store";
 import {Redirect, Route, Switch, useHistory, useLocation, useRouteMatch} from "react-router-dom";
-import {selectSearchParams} from "../../../store/selectors";
 import Loading from "../../general/loading/loading";
 
 const ViewerHeader = React.lazy(() => import("./view-header/view-header"));
@@ -14,18 +13,28 @@ export default function FilmsHeaderContainer() {
     const history = useHistory();
     const query = new URLSearchParams(useLocation().search);
     const genre = query.get("genre");
+    const title = query.get("title");
     const searchParams = useSelector(selectSearchParams);
     const match = useRouteMatch();
 
     const updateSearchStr = str => {
         if (str) {
-            dispatch(setSearchString(str));
             history.push(`/films?title=${str}${genre ? '&genre=' + genre : ''}`);
         } else {
             dispatch(setSearchString(null));
             history.push(`/films${genre ? '?genre=' + genre : ''}`);
         }
     };
+
+    useEffect(() => {
+        if (title && genre === "all") {
+            dispatch(setActiveGenre(null));
+        } else if (title && genre) {
+            dispatch(setActiveGenre(genre));
+        }
+        dispatch(setSearchString(title));
+    }, [genre, title, dispatch]);
+
 
     return (
         <Switch>

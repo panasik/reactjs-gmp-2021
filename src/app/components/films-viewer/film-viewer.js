@@ -4,9 +4,8 @@ import Container from '../general/container/container';
 import './films-viewer.scss';
 import Tabs from "../../components/general/tabs/tabs";
 import Dropdown from "../general/dropdown/dropdown";
-import {setSortOrder, setSortType} from "../../store/slices";
+import {setSortOrder, setSortType, selectGenres, selectSearchParams} from "../../store";
 import {useDispatch, useSelector} from "react-redux";
-import {selectGenres, selectSearchParams} from "../../store/selectors";
 import {useHistory, useLocation} from "react-router-dom";
 import FilmsHeaderContainer from "./header/films-header-container";
 import PropTypes from 'prop-types';
@@ -42,7 +41,7 @@ export default function FilmsViewer({children}) {
         if (tab !== SelectAllTabName) {
             search.set("genre", tab);
         } else {
-            search.delete("genre");
+            search.set("genre", "all");
         }
         history.push({
             pathname: location.pathname,
