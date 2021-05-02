@@ -1,16 +1,17 @@
 import {FilmApi, moviesUrl} from "./films.api";
+import fetch from 'node-fetch';
 
-global.fetch = jest.fn();
+jest.mock('node-fetch', ()=>jest.fn());
 
 describe('FilmApi', () => {
     const film = {id: 5};
 
     beforeEach(() => {
-        global.fetch.mockClear();
+        fetch.mockClear();
     });
 
     it('should perform createFilm', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: true}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: true}));
         FilmApi.createFilm().then(el => {
             expect(el).toEqual({ok: true});
             done();
@@ -18,7 +19,7 @@ describe('FilmApi', () => {
     });
 
     it('should handle error in createFilm', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
         FilmApi.createFilm().catch(el => {
             expect(el).toEqual('error');
             done();
@@ -26,16 +27,16 @@ describe('FilmApi', () => {
     });
 
     it('should perform deleteFilm', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: true}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: true}));
         FilmApi.deleteFilm(film).then(el => {
             expect(el).toEqual({ok: true});
-            expect(global.fetch).toHaveBeenCalledWith(moviesUrl + '/' + film.id, {method: 'DELETE'});
+            expect(fetch).toHaveBeenCalledWith(moviesUrl + '/' + film.id, {method: 'DELETE'});
             done();
         });
     });
 
     it('should handle error in deleteFilm', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
         FilmApi.deleteFilm(film).catch(el => {
             expect(el).toEqual('error');
             done();
@@ -43,17 +44,17 @@ describe('FilmApi', () => {
     });
 
     it('should perform updateFilm', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: true}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: true}));
         FilmApi.updateFilm(film).then(el => {
             expect(el).toEqual({ok: true});
-            expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch.mock.calls[0][1].body).toEqual(JSON.stringify(film));
+            expect(fetch).toHaveBeenCalled();
+            expect(fetch.mock.calls[0][1].body).toEqual(JSON.stringify(film));
             done();
         });
     });
 
     it('should handle error in updateFilm', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
         FilmApi.updateFilm(film).catch(el => {
             expect(el).toEqual('error');
             done();
@@ -61,16 +62,16 @@ describe('FilmApi', () => {
     });
 
     it('should perform loadFilmById', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: true, json: () => Promise.resolve(film)}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: true, json: () => Promise.resolve(film)}));
         FilmApi.loadFilmById(film.id).then(el => {
             expect(el).toEqual(film);
-            expect(global.fetch).toHaveBeenCalledWith(moviesUrl + `/${film.id}`);
+            expect(fetch).toHaveBeenCalledWith(moviesUrl + `/${film.id}`);
             done();
         });
     });
 
     it('should handle error in loadFilmById', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
         FilmApi.loadFilmById(film.id).catch(el => {
             expect(el).toEqual('error');
             done();
@@ -78,29 +79,29 @@ describe('FilmApi', () => {
     });
 
     it('should perform loadFilms', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: true, json: () => Promise.resolve({data: [film]})}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: true, json: () => Promise.resolve({data: [film]})}));
         FilmApi.loadFilms({sortOrder: 'desc'}).then(el => {
             expect(el).toEqual([film]);
-            expect(global.fetch).toHaveBeenCalled();
+            expect(fetch).toHaveBeenCalled();
             done();
         });
     });
 
     it('should correctly calcQueryStr in loadFilms', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: true, json: () => Promise.resolve({})}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: true, json: () => Promise.resolve({})}));
         FilmApi.loadFilms({
             sortType: 'test',
             sortOrder: 'asc',
             activeGenre: 'genre',
             searchString: 'str'
         }).then(() => {
-            expect(global.fetch).toHaveBeenCalledWith(moviesUrl + '?limit=10&sortBy=test&sortOrder=asc&filter=genre&search=str&searchBy=title');
+            expect(fetch).toHaveBeenCalledWith(moviesUrl + '?limit=10&sortBy=test&sortOrder=asc&filter=genre&search=str&searchBy=title');
             done();
         });
     });
 
     it('should handle error in loadFilms', (done) => {
-        global.fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
+        fetch.mockReturnValueOnce(Promise.resolve({ok: false, text: () => Promise.resolve('error')}));
         FilmApi.loadFilms().catch(el => {
             expect(el).toEqual('error');
             done();

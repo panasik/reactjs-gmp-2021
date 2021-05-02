@@ -7,7 +7,7 @@ import {loadFilmDetails, selectFilmDetails} from "../../../../store";
 import {useHistory, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import HeaderContainer from "../../../general/header-container/header-container";
-
+import {useServerEffect} from "../../../../util/hooks/server-effect";
 
 export default function FilmDetailsHeader() {
     const {filmId} = useParams();
@@ -21,6 +21,9 @@ export default function FilmDetailsHeader() {
             return 'Bad';
         }
     };
+
+    useServerEffect({}, `film-details-${filmId}`, () => new Promise((resolve) => resolve(((!filmDetails || !filmDetails.id)
+    && Number.isInteger(+filmId)) && dispatch(loadFilmDetails(filmId)))));
 
     useEffect(() => {
         dispatch(loadFilmDetails(filmId, () => {} , () => {

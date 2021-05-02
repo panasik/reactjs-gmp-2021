@@ -1,12 +1,11 @@
-import React, {Suspense, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import '../../general/styles/button.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {setAddEditDialogOpen, setSearchString, selectSearchParams, setActiveGenre} from "../../../store";
+import {setAddEditDialogOpen, setSearchString, selectSearchParams, setActiveGenre, setSelectedFilm} from "../../../store";
 import {Redirect, Route, Switch, useHistory, useLocation, useRouteMatch} from "react-router-dom";
-import Loading from "../../general/loading/loading";
+import ViewerHeader from './view-header/view-header';
+import FilmDetailsHeader from './film-details-header/film-details-header';
 
-const ViewerHeader = React.lazy(() => import("./view-header/view-header"));
-const FilmDetailsHeader = React.lazy(() => import("./film-details-header/film-details-header"));
 
 export default function FilmsHeaderContainer() {
     const dispatch = useDispatch();
@@ -36,21 +35,22 @@ export default function FilmsHeaderContainer() {
     }, [genre, title, dispatch]);
 
 
+    const openAddDialog = () => {
+        dispatch(setSelectedFilm(null));
+        dispatch(setAddEditDialogOpen(true));
+    };
+
     return (
         <Switch>
             <Route exact
                 path={match.path}>
-                <Suspense fallback={<Loading/>}>
                     <ViewerHeader
                         searchString={searchParams.searchString}
                         updateSearchStr={updateSearchStr}
-                        onAddFilm={() => dispatch(setAddEditDialogOpen(true))}/>
-                </Suspense>
+                        onAddFilm={openAddDialog}/>
             </Route>
             <Route exact path={`${match.path}/:filmId`}>
-                <Suspense fallback={<Loading/>}>
                     <FilmDetailsHeader/>
-                </Suspense>
             </Route>
             <Route path="*"
                 render={() => (
