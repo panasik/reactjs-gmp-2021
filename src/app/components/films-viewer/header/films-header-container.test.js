@@ -8,7 +8,8 @@ import {selectSearchParams} from "../../../store";
 jest.mock('../../../store', () => ({
     selectSearchParams: jest.fn(() => ({})),
     setAddEditDialogOpen: jest.fn(() => 'open'),
-    setSearchString: jest.fn(str => str)
+    setSearchString: jest.fn(str => str),
+    setSelectedFilm: jest.fn()
 }));
 
 const mockDispatch = jest.fn();
@@ -48,8 +49,6 @@ describe('FilmsHeaderContainer', () => {
 
     it('should init correctly', async () => {
         const {container} = render(<FilmsHeaderContainer/>);
-
-        expect(container.querySelector('.Loading')).toBeInTheDocument();
 
         await new Promise(resolve => setTimeout(resolve, 1000));
 

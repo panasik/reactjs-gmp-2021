@@ -4,7 +4,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/client.js',
     output: {
         filename: 'bundle.js',
         chunkFilename: '[name].[hash].bundle.js'

@@ -2,11 +2,9 @@ import React, {Suspense} from 'react';
 import Loading from "../../../components/general/loading/loading";
 import {useDispatch, useSelector} from "react-redux";
 import {selectDialogs, setResultPopup} from "../../../store";
-
-const AddEditFilmDialog = React.lazy(() => import("./add-edit-dialog/add-edit-film-dialog"));
-const DeleteDialog = React.lazy(() => import("./delete-dialog"));
-const ResultPopup = React.lazy(() => import("../../../components/general/result-popup/result-popup"));
-
+import AddEditFilmDialog from "./add-edit-dialog/add-edit-film-dialog";
+import DeleteDialog from "./delete-dialog";
+import ResultPopup from "../../../components/general/result-popup/result-popup";
 
 export default function FilmDialogContainer() {
 

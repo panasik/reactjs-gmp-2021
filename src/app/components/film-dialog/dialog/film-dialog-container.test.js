@@ -51,7 +51,6 @@ describe('FilmDialogContainer', () => {
             isAddEditDialogOpen: true
         });
         const {container} = render(<FilmDialogContainer/>);
-        expect(container.querySelector('.Loading')).toBeInTheDocument();
 
         await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -65,7 +64,6 @@ describe('FilmDialogContainer', () => {
             resultPopup : {}
         });
         const {container} = render(<FilmDialogContainer/>);
-        expect(container.querySelector('.Loading')).toBeInTheDocument();
 
         await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -82,7 +80,6 @@ describe('FilmDialogContainer', () => {
             confirmationDialog  : {}
         });
         const {container} = render(<FilmDialogContainer/>);
-        expect(container.querySelector('.Loading')).toBeInTheDocument();
 
         await new Promise(resolve => setTimeout(resolve, 1000));
 

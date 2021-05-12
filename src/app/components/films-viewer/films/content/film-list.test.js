@@ -32,7 +32,7 @@ jest.mock("./film-item/film-item", () => (props) =>
     (<><div className="TestItem"
         onClick={() => props.clickHandler(props.film)}> </div>
         {props.actions.map(el => (
-            <div onClick={() => el.handle(props.film)}>{el.title}</div>
+            <div key={Math.random()} onClick={() => el.handle(props.film)}>{el.title}</div>
         ))}
     </>));
 
