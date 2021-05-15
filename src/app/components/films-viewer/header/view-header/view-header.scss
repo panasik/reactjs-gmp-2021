@@ -1,4 +1,4 @@
-@import "../../../general/styles/colors.scss";
+@import '../../../general/styles/colors.scss';
 
 .TransparentButton {
   position: absolute;
@@ -22,5 +22,6 @@
     margin-bottom: 30px;
     user-select: none;
     cursor: default;
+    color: white;
   }
 }

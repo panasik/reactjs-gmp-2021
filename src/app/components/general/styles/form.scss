@@ -1,4 +1,4 @@
-@import "./colors.scss";
+@import './colors.scss';
 
 .Input {
   font-size: 14px;
@@ -13,14 +13,14 @@
   opacity: 0.5;
   outline: none;
 
-  &:focus, &:hover {
+  &:focus,
+  &:hover {
     opacity: 1;
   }
 
   &.Invalid {
     border: solid 1px $red;
   }
-
 }
 
 .DarkInput {
@@ -28,7 +28,8 @@
   background-color: rgba(red($black), green($black), blue($black), 0.75);
   opacity: 1;
 
-  &:focus, &:hover {
+  &:focus,
+  &:hover {
     outline: none;
     background-color: $black;
   }

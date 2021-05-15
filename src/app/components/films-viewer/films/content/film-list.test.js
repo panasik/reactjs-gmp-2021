@@ -1,82 +1,92 @@
-import {render, screen} from "@testing-library/react";
-import React from "react";
+import { render, screen } from '@testing-library/react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import userEvent from "@testing-library/user-event";
-import FilmList from "./film-list";
+import userEvent from '@testing-library/user-event';
+import FilmList from './film-list';
+import {
+  setAddEditDialogOpen,
+  setSelectedFilm,
+  setConfirmationDialog,
+} from '../../../../store';
 
 jest.mock('../../../../store', () => ({
-    selectFilms: jest.fn(() => ([{id: 1, name: 'Test1'}])),
-    loadFilms: jest.fn(),
-    setActiveGenre: jest.fn(),
-    setAddEditDialogOpen: jest.fn(),
-    setConfirmationDialog: jest.fn(),
-    setSearchString: jest.fn(),
-    setSelectedFilm: jest.fn(),
+  selectFilms: jest.fn(() => [{ id: 1, name: 'Test1' }]),
+  loadFilms: jest.fn(),
+  setActiveGenre: jest.fn(),
+  setAddEditDialogOpen: jest.fn(),
+  setConfirmationDialog: jest.fn(),
+  setSearchString: jest.fn(),
+  setSelectedFilm: jest.fn(),
 }));
 
 const mockDispatch = jest.fn();
 
 jest.mock('react-redux', () => ({
-    useSelector: jest.fn().mockImplementation(selector => selector()),
-    useDispatch: jest
-        .fn(() => mockDispatch)
+  useSelector: jest.fn().mockImplementation((selector) => selector()),
+  useDispatch: jest.fn(() => mockDispatch),
 }));
 
-const mockHistory = {push: jest.fn()};
+const mockHistory = { push: jest.fn() };
 
 jest.mock('react-router-dom', () => ({
-    useHistory: jest.fn(() => mockHistory),
-    useLocation: jest.fn(() => ({search:''}))
+  useHistory: jest.fn(() => mockHistory),
+  useLocation: jest.fn(() => ({ search: '' })),
 }));
-jest.mock("./film-item/film-item", () => (props) =>
-    (<><div className="TestItem"
-        onClick={() => props.clickHandler(props.film)}> </div>
-        {props.actions.map(el => (
-            <div key={Math.random()} onClick={() => el.handle(props.film)}>{el.title}</div>
-        ))}
-    </>));
-
-import {setAddEditDialogOpen, setSelectedFilm, setConfirmationDialog} from "../../../../store";
+jest.mock('./film-item/film-item', () => ({
+  // eslint-disable-next-line react/prop-types
+  clickHandler, film, actions,
+}) => (
+  <>
+    <div className="TestItem" onClick={() => clickHandler(film)}>
+      {' '}
+    </div>
+    {/* eslint-disable-next-line react/prop-types */}
+    {actions.map((el) => (
+      <div key={Math.random()} onClick={() => el.handle(film)}>
+        {el.title}
+      </div>
+    ))}
+  </>
+));
 
 describe('FilmList', () => {
+  it('should correctly init', () => {
+    const { container } = render(<FilmList />);
+    expect(container.querySelector('.TestItem')).toBeInTheDocument();
+  });
 
-    it('should correctly init', () => {
-        const {container} = render(<FilmList/>);
-        expect(container.querySelector('.TestItem')).toBeInTheDocument();
+  it('should correctly select film', () => {
+    window.scrollTo = jest.fn();
+    const { container } = render(<FilmList />);
+    const tab = container.querySelector('.TestItem');
+    userEvent.click(tab);
+
+    expect(mockHistory.push).toHaveBeenCalledWith({
+      pathname: '/films/1',
+      search: '',
     });
 
-    it('should correctly select film', () => {
-        window.scrollTo = jest.fn();
-        const {container} = render(<FilmList/>);
-        const tab = container.querySelector('.TestItem');
-        userEvent.click(tab);
+    expect(window.scrollTo).toHaveBeenCalled();
+  });
 
-        expect(mockHistory.push).toHaveBeenCalledWith({
-            pathname: `/films/1`,
-            search: ''
-        });
+  it('should correctly select handle edit', () => {
+    render(<FilmList />);
+    const edit = screen.getByText(/edit/i);
+    console.log(edit);
+    userEvent.click(edit);
 
-        expect(window.scrollTo).toHaveBeenCalled();
-    });
+    expect(mockDispatch).toHaveBeenCalled();
+    expect(setSelectedFilm).toHaveBeenCalled();
+    expect(setAddEditDialogOpen).toHaveBeenCalledWith(true);
+  });
 
-    it('should correctly select handle edit', () => {
-        render(<FilmList/>);
-        const edit = screen.getByText(/edit/i);
-        console.log(edit);
-        userEvent.click(edit);
+  it('should correctly select handle delete', () => {
+    render(<FilmList />);
+    const edit = screen.getByText(/delete/i);
+    userEvent.click(edit);
 
-        expect(mockDispatch).toHaveBeenCalled();
-        expect(setSelectedFilm).toHaveBeenCalled();
-        expect(setAddEditDialogOpen).toHaveBeenCalledWith(true);
-    });
-
-    it('should correctly select handle delete', () => {
-        render(<FilmList/>);
-        const edit = screen.getByText(/delete/i);
-        userEvent.click(edit);
-
-        expect(mockDispatch).toHaveBeenCalled();
-        expect(setSelectedFilm).toHaveBeenCalled();
-        expect(setConfirmationDialog).toHaveBeenCalled();
-    });
+    expect(mockDispatch).toHaveBeenCalled();
+    expect(setSelectedFilm).toHaveBeenCalled();
+    expect(setConfirmationDialog).toHaveBeenCalled();
+  });
 });
