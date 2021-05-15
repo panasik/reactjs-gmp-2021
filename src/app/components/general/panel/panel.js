@@ -17,12 +17,16 @@ function Panel(props) {
 }
 
 Panel.propTypes = {
-  closable: PropTypes.bool.isRequired,
+  closable: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+};
+
+Panel.defaultProps = {
+  closable: false,
 };
 
 export default Panel;
