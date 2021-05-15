@@ -1,3 +1,6 @@
 /build/
 /dev/
 /src/app/components/general/logo/__snapshots__/
+/storybook-static/
+/coverage/
+/node_modules/

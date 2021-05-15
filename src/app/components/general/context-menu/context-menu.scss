@@ -1,17 +1,17 @@
-@import "../styles/colors.scss";
+@import '../styles/colors.scss';
 
 .context-menu-container {
-    background-color: $black;
-    position: absolute;
-    padding: 2px 5px 2px 9px;
-    margin: 5px;
-    opacity: 0.75;
-    border-radius: 20px;
-    text-align: center;
-    right: 0;
+  background-color: $black;
+  position: absolute;
+  padding: 2px 5px 2px 9px;
+  margin: 5px;
+  opacity: 0.75;
+  border-radius: 20px;
+  text-align: center;
+  right: 0;
 
-    &:after {
-        content: "\2807";
-        font-size: 20px;
-    }
+  &:after {
+    content: '\2807';
+    font-size: 20px;
+  }
 }

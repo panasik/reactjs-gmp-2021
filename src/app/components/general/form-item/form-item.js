@@ -1,33 +1,33 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import React from 'react';
-import '../../general/styles/form.scss';
-import {useField} from "formik";
+import '../styles/form.scss';
+import { useField } from 'formik';
+
+// PATTERN: JSX spread attributes
+export default function FormItem(props) {
+  const [field, meta] = useField(props);
+  const { label, type } = props;
+  const placeholder = `${label.charAt(0).toUpperCase() + label.slice(1).toLocaleLowerCase()} here`;
+
+  return (
+    <>
+      <label className="FormItemLabel">
+        {label}
+        <input
+          id={label}
+          className={`Input FormItemInput ${meta.error ? 'Invalid' : ''}`}
+          name={label}
+          placeholder={placeholder}
+          type={type}
+          {...field}
+        />
+      </label>
+      {meta.error && <div className="InputError">{meta.error}</div>}
+    </>
+  );
+}
 
 FormItem.propTypes = {
-    label: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['text', 'date']).isRequired
+  label: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['text', 'date']).isRequired,
 };
-
-export default function FormItem(props) {
-    const [field, meta] = useField(props);
-    const placeholder = props.label.charAt(0).toUpperCase() + props.label.slice(1).toLocaleLowerCase() + ' here';
-
-    return (
-        <>
-            <label className='FormItemLabel'>
-                {props.label}
-                    <input
-                        id={props.label}
-                        className={`Input FormItemInput ${meta.error ? 'Invalid' : ''}`}
-                        name={props.label}
-                        placeholder={placeholder}
-                        type={props.type}
-                        {...field}
-                    />
-            </label>
-            {meta.error && (
-                <div className="InputError">{meta.error}</div>
-            )}
-        </>
-    );
-}

@@ -2,28 +2,27 @@ import React from 'react';
 import './panel.scss';
 import PropTypes from 'prop-types';
 
-const Panel = (props) => (
-    <div className='Panel'>
-        {
-            props.closable &&
-            <span
-                className='PanelCloseMark'
-                tabIndex={0}
-                onClick={props.onClose}>x</span>
-        }
-        {
-            props.children
-        }
+function Panel(props) {
+  const { closable, onClose, children } = props;
+  return (
+    <div className="Panel">
+      {closable && (
+        <span className="PanelCloseMark" tabIndex={0} onClick={onClose}>
+          x
+        </span>
+      )}
+      {children}
     </div>
-);
+  );
+}
 
 Panel.propTypes = {
-    closable: PropTypes.bool,
-    onClose: PropTypes.func,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+  closable: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default Panel;

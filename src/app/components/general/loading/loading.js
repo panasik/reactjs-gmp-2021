@@ -3,10 +3,10 @@ import '../styles/dialog.scss';
 import './loading.scss';
 
 const Loading = () => (
-    <>
-        <div className='Loading'></div>
-        <div className="DialogBackground"></div>
-    </>
+  <>
+    <div className="Loading" />
+    <div className="DialogBackground" />
+  </>
 );
 
 export default Loading;

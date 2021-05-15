@@ -4,13 +4,19 @@
         "commonjs": true,
         "es6": true,
         "node": true,
-        "jest": true
+        "jest/globals": true
     },
     "parser": "babel-eslint",
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "airbnb"
     ],
+    "globals": {
+        "fetch": false,
+        "document": true,
+        "window": true
+    },
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -19,31 +25,20 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
-        "babel",
-        "react-hooks"
+        "jest"
     ],
     "rules": {
-        "no-unused-vars": [
-            "error",
-            {
-                "caughtErrorsIgnorePattern": "^ignore"
-            }
-        ],
-        "react/jsx-uses-react": 1,
-        "react/jsx-uses-vars": "error",
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "babel/new-cap": 0,
-        "babel/camelcase": 0,
-        "babel/no-invalid-this": 1,
-        "babel/object-curly-spacing": 1,
-        "babel/semi": 1,
-        "babel/no-unused-expressions": 1,
-        "babel/valid-typeof": 1,
-        "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "error"
-    }
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "no-console": "off",
+        "no-throw-literal": 0,
+        "import/no-cycle": 0,
+        "jsx-a11y/click-events-have-key-events": 0,
+        "jsx-a11y/no-static-element-interactions": 0,
+        "jsx-a11y/no-noninteractive-tabindex": 0,
+        "jsx-a11y/label-has-associated-control": 0,
+        "jsx-a11y/mouse-events-have-key-events": 0,
+        "jsx-a11y/no-noninteractive-element-interactions": 0,
+        "react/jsx-no-bind": 0,
+        "react/jsx-props-no-spreading": 0
+      }
 }

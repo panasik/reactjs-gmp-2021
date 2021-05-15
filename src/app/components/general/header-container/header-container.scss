@@ -1,4 +1,4 @@
-@import "../../general/styles/colors.scss";
+@import '../../general/styles/colors.scss';
 
 .HeaderContainer {
   position: relative;
@@ -18,7 +18,7 @@
     height: 100%;
     position: absolute;
     top: 0;
-    background: rgba(0, 0, 0, .8);
+    background: rgba(0, 0, 0, 0.8);
   }
 
   .Logo {
